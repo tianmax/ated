@@ -28,7 +28,7 @@ SRCS = ate-ext.c
 ETH = $(CMD_IO)/eth.c
 DRI = $(IOCTL)/ioctl2driver.c
 endif
-CFLAGS += -I$(INCLUDE) 
+CFLAGS += -I$(INCLUDE)
 #EXTRA_CFLAGS += -DDBG
 ###########################  PLATFROM RELATED ################################
 #PLATFORM = 5VT
@@ -110,10 +110,10 @@ endif# Version
 else
 ifeq ($(PLATFORM),APSOC)
 ifeq ($(AGENT_VERSION),1)
-$(EXEC): $(SRCS) $(ROOTDIR)/$(LINUXDIR)/include/linux/autoconf.h
+$(EXEC): $(SRCS) 
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(LDFLAGS) -o $@ $(SRCS) $(LDLIBS)
 else
-$(EXEC): $(SRCS) $(ROOTDIR)/$(LINUXDIR)/include/linux/autoconf.h $(ETH) $(DRI) $(MULTI)
+$(EXEC): $(SRCS) $(ETH) $(DRI) $(MULTI)
 	$(CC) -v -Wall $(CFLAGS) $(EXTRA_CFLAGS) $(LDFLAGS) -o $@ $(SRCS) $(ETH) $(DRI) $(MULTI) $(LDLIBS)
 endif#Version
 else

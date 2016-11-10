@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <string.h>
-#include <errno.h>  
+#include <errno.h>
 #include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include <linux/in.h>
 #include <linux/if_ether.h>
 #include <linux/if_packet.h>
@@ -87,7 +89,7 @@ static void ate_hexdump(int level, char *str, unsigned char *pSrcBufVA, unsigned
 
 	if (level < ate_debug_level)
 		return;
-	
+
 	pt = pSrcBufVA;
 	printf("%s: %p, len = %lu\n",str,  pSrcBufVA, SrcBufLen);
 	for (x=0; x<SrcBufLen; x++)
@@ -145,9 +147,9 @@ static int do_fork = 1;
 static int signup_flag = 1;
 static char bridge_ifname[IFNAMSIZ + 1];
 static char driver_ifname[IFNAMSIZ + 1];
-static int optind = 1;
-static int optopt;
-static char *optarg;
+//static int optind = 1;
+//static int optopt;
+//static char *optarg;
 /* respond to QA by unicast frames if bUnicast == TRUE */
 static boolean bUnicast = FALSE;
 unsigned short ate_cmd_id_len_tbl[] =
