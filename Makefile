@@ -73,6 +73,7 @@ endif
 ifeq ($(PLATFORM),PC)
 CROSS_COMPILE =
 endif
+
 #################  Thread Model ###############################
 ifeq ($(MULTI_PROC),1)
 $(info ************  MULTI-PROCESS WITH PTHREAD ************)
@@ -89,7 +90,7 @@ MULTI = $(THREAD_MODEL)/multi_fork.c
 endif
 ifeq ($(MULTI_PROC),3)
 $(info ************  MULTI-PROCESS WITH IPC SOCKET  ************)
-EXTRA_CFLAGS += -DMT_ATED_IPC_SOCK=1
+EXTRA_CFLAGS += -DMT_ATED_IPC_SOCK=1 -DMT_ATED_APSOC
 MULTI = $(THREAD_MODEL)/ipc_socket.c
 endif
 

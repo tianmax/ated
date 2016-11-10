@@ -35,7 +35,7 @@
 #endif
 
 #ifdef MT_ATED_APSOC
-#include "generated/autoconf.h"
-#include "nvram.h"
+//#include "generated/autoconf.h"
+//#include "nvram.h"
 #endif
-
+ 
