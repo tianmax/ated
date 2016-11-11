@@ -19,6 +19,7 @@ int init_eth(struct HOST_IF *fd,char *bridge_ifname)
 	}
 	
 	os_memset(&ifr, 0, sizeof(ifr));
+
 #ifdef CONFIG_LAN_WAN_SUPPORT
 	os_memcpy(ifr.ifr_name, "eth2.1" , 7);
 #else
@@ -48,22 +49,23 @@ int init_eth(struct HOST_IF *fd,char *bridge_ifname)
 		perror("ioctl(SIOCGIFHWADDR)(eth_sock)");
 		goto close;
 	}
-	if(fd->need_set_mac){
-		os_memcpy(&ifr.ifr_hwaddr.sa_data, &fd->ownmac, ETH_ALEN);
-		ate_printf(MSG_INFO,"Set Own Mac: %02x:%02x:%02x:%02x:%02x:%02x\n", (unsigned char) ifr.ifr_hwaddr.sa_data[0], (unsigned char) ifr.ifr_hwaddr.sa_data[1], (unsigned char) ifr.ifr_hwaddr.sa_data[2], (unsigned char) ifr.ifr_hwaddr.sa_data[3], (unsigned char) ifr.ifr_hwaddr.sa_data[4], (unsigned char) ifr.ifr_hwaddr.sa_data[5]);
-		if (ioctl(s, SIOCSIFHWADDR, &ifr) != 0)
-		{
-			perror("ioctl(SIOCSIFHWADDR)(eth_sock)");
-			goto close;
-		}
-		ifr.ifr_flags |= IFF_PROMISC;
-		if( ioctl(s, SIOCSIFFLAGS, &ifr) != 0 )
-		{
-			perror("ioctl for IFF_PROMISC failed.");
-			return (-1);
-		}
-	}
-	os_memcpy(my_eth_addr, ifr.ifr_hwaddr.sa_data, 6);
+
+	/* if(fd->need_set_mac){ */
+	/* 	os_memcpy(&ifr.ifr_hwaddr.sa_data, &fd->ownmac, ETH_ALEN); */
+	/* 	ate_printf(MSG_INFO,"Set Own Mac: %02x:%02x:%02x:%02x:%02x:%02x\n", (unsigned char) ifr.ifr_hwaddr.sa_data[0], (unsigned char) ifr.ifr_hwaddr.sa_data[1], (unsigned char) ifr.ifr_hwaddr.sa_data[2], (unsigned char) ifr.ifr_hwaddr.sa_data[3], (unsigned char) ifr.ifr_hwaddr.sa_data[4], (unsigned char) ifr.ifr_hwaddr.sa_data[5]); */
+	/* 	if (ioctl(s, SIOCSIFHWADDR, &ifr) != 0) */
+	/* 	{ */
+	/* 		perror("ioctl(SIOCSIFHWADDR)(eth_sock)"); */
+	/* 		goto close; */
+	/* 	} */
+	/* 	ifr.ifr_flags |= IFF_PROMISC; */
+	/* 	if( ioctl(s, SIOCSIFFLAGS, &ifr) != 0 ) */
+	/* 	{ */
+	/* 		perror("ioctl for IFF_PROMISC failed."); */
+	/* 		return (-1); */
+	/* 	} */
+	/* } */
+	/* os_memcpy(my_eth_addr, ifr.ifr_hwaddr.sa_data, 6); */
 	
 	ate_printf(MSG_INFO,"Open Ethernet socket success\n");
 	fd->rev_cmd = &rev_cmd_eth;
@@ -71,6 +73,7 @@ int init_eth(struct HOST_IF *fd,char *bridge_ifname)
 	fd->close = &close_eth;
 	hfd = fd;
 	os_memset(hfd->da, 0, ETH_ALEN);
+
 	return sock_eth;
 	close:
 	close(sock_eth);
